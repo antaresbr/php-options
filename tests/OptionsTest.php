@@ -15,7 +15,7 @@ final class OptionsTest extends TestCase
             'trueOption' => ['types' => 'boolean'],
             'falseOption' => ['types' => 'boolean'],
             'fruits' => ['types' => 'array'],
-            'object' => ['types' => Options::class],
+            'object' => ['types' => Options::class, 'nullable' => false],
         ];
     }
 
@@ -199,5 +199,12 @@ final class OptionsTest extends TestCase
 
         $this->assertIsArray($wo->getPrototypes());
         $this->assertEquals(0, count($wo->getPrototypes()));
+    }
+
+    public function testOptions_validate_method()
+    {
+        $wo = $this->getWorkOptions();
+
+        $this->assertInstanceOf(Options::class, $wo->validate());
     }
 }

@@ -386,6 +386,22 @@ class Options implements ArrayAccess, Countable, IteratorAggregate, Traversable,
     }
 
     /**
+     * Validate data with current prototypes
+     *
+     * @return static
+     */
+    public function validate()
+    {
+        if (!$this->isEmpty() and !empty($this->prototypes)) {
+            foreach (array_keys($this->data) as $key) {
+                $this->get($key);
+            }
+        }
+
+        return $this;
+    }
+
+    /**
      * Make a brand new options object based on supplied options array
      *
      * @param array $data Data to be used in this object
