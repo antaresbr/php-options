@@ -44,11 +44,11 @@ class Options implements ArrayAccess, Countable, IteratorAggregate, Traversable,
     protected $data;
 
     /**
-     * The prototype options
+     * The options prototypes
      *
      * @var array
      */
-    protected $prototype;
+    protected $prototypes;
 
     //-- implements : ArrayAccess
 
@@ -141,11 +141,11 @@ class Options implements ArrayAccess, Countable, IteratorAggregate, Traversable,
      * Class constructor
      *
      * @param array $data Data to be used in this object
-     * @param array $prototype The protorype applied to this object
+     * @param array $prototypes The protorype applied to this object
      */
-    public function __construct(array $data = [], array $prototype = [])
+    public function __construct(array $data = [], array $prototypes = [])
     {
-        $this->setPrototype($prototype);
+        $this->setPrototypes($prototypes);
         $this->reset($data);
     }
 
@@ -238,29 +238,29 @@ class Options implements ArrayAccess, Countable, IteratorAggregate, Traversable,
      * Get key value
      *
      * @param string $key The key to serach value
-     * @param array $options The options used get the value
+     * @param array $prototype The prototype used to get the value for the
      * @return mixed
      */
-    public function get($key, $options = [])
+    public function get($key, $prototype = [])
     {
         if (empty($key)) {
             throw OptionsException::forNoKeySupplied();
         }
 
-        if (!empty($this->prototype) and !Arr::has($this->prototype, $key)) {
+        if (!empty($this->prototypes) and !Arr::has($this->prototypes, $key)) {
             throw OptionsException::forInvalidOption($key);
         }
 
-        if (empty($options)) {
-            $options = Arr::get($this->prototype, $key, []);
+        if (empty($prototype)) {
+            $prototype = Arr::get($this->prototypes, $key, []);
         }
 
-        $required = Arr::get($options, 'required', static::PROTOTYPE['required']['default']);
-        $nullable = Arr::get($options, 'nullable', static::PROTOTYPE['nullable']['default']);
-        $default = Arr::get($options, 'default', static::PROTOTYPE['default']['default']);
-        $values = Arr::get($options, 'values', static::PROTOTYPE['values']['default']);
-        $types = Arr::get($options, 'types', static::PROTOTYPE['types']['default']);
-        $throwException = Arr::get($options, 'throwException', static::PROTOTYPE['throwException']['default']);
+        $required = Arr::get($prototype, 'required', static::PROTOTYPE['required']['default']);
+        $nullable = Arr::get($prototype, 'nullable', static::PROTOTYPE['nullable']['default']);
+        $default = Arr::get($prototype, 'default', static::PROTOTYPE['default']['default']);
+        $values = Arr::get($prototype, 'values', static::PROTOTYPE['values']['default']);
+        $types = Arr::get($prototype, 'types', static::PROTOTYPE['types']['default']);
+        $throwException = Arr::get($prototype, 'throwException', static::PROTOTYPE['throwException']['default']);
 
         if ($required and !$this->has($key) and $throwException) {
             throw OptionsException::forAbsentRequiredOption($key);
@@ -316,7 +316,6 @@ class Options implements ArrayAccess, Countable, IteratorAggregate, Traversable,
                 }
             }
 
-            //if ($type == 'object' and !Str::icIn($validType, 'mixed', 'object', 'boolean', 'integer', 'double', 'float', 'string', 'array', 'on/off')) {
             if ($type == 'object' and !Str::icIn($validType, ...static::VALID_TYPES)) {
                 if ($value instanceof $validType) {
                     $type = $validType;
@@ -347,32 +346,32 @@ class Options implements ArrayAccess, Countable, IteratorAggregate, Traversable,
     }
 
     /**
-     * Protected prototype property accessor
+     * Protected prototypes property accessor
      *
      * @return array
      */
-    public function getPrototype()
+    public function getPrototypes()
     {
-        return $this->prototype;
+        return $this->prototypes;
     }
 
     /**
-     * Set prototype property
+     * Set options prototypes
      *
-     * @param array $prototype
+     * @param array $prototypes
      * @return void
      */
-    public function setPrototype(array $prototype)
+    public function setPrototypes(array $prototypes)
     {
-        if (!empty($prototype)) {
+        if (!empty($prototypes)) {
             $validator = new static();
 
-            foreach ($prototype as $option => $data) {
-                if (!Arr::accessible($data)) {
+            foreach ($prototypes as $option => $prototype) {
+                if (!Arr::accessible($prototype)) {
                     throw OptionsException::forInvalidPrototype($option);
                 }
 
-                $validator->reset($data);
+                $validator->reset($prototype);
 
                 foreach (array_keys($validator->data) as $key) {
                     if (!Arr::has(static::PROTOTYPE, $key)) {
@@ -383,18 +382,18 @@ class Options implements ArrayAccess, Countable, IteratorAggregate, Traversable,
             }
         }
 
-        $this->prototype = $prototype;
+        $this->prototypes = $prototypes;
     }
 
     /**
      * Make a brand new options object based on supplied options array
      *
      * @param array $data Data to be used in this object
-     * @param array $prototype The protorype applied to this object
+     * @param array $prototypes The protorypes applied to this object
      * @return static
      */
-    public static function make(array $data = [], array $prototype = [])
+    public static function make(array $data = [], array $prototypes = [])
     {
-        return new static($data, $prototype);
+        return new static($data, $prototypes);
     }
 }

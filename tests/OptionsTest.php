@@ -182,22 +182,22 @@ final class OptionsTest extends TestCase
         $this->assertFalse($wo->isValidValue([], 'boolean|string'));
     }
 
-    public function testOptions_getPrototype_method()
+    public function testOptions_getPrototypes_method()
     {
         $pa = $this->getPrototypeArray();
         $wo = $this->getWorkOptions();
 
-        $this->assertIsArray($wo->getPrototype());
-        $this->assertEquals(count($pa), count($wo->getPrototype()));
-        $this->assertEquals($pa, $wo->getPrototype());
+        $this->assertIsArray($wo->getPrototypes());
+        $this->assertEquals(count($pa), count($wo->getPrototypes()));
+        $this->assertEquals($pa, $wo->getPrototypes());
     }
 
-    public function testOptions_setPrototype_method()
+    public function testOptions_setPrototypes_method()
     {
         $wo = $this->getWorkOptions();
-        $wo->setPrototype([]);
+        $wo->setPrototypes([]);
 
-        $this->assertIsArray($wo->getPrototype());
-        $this->assertEquals(0, count($wo->getPrototype()));
+        $this->assertIsArray($wo->getPrototypes());
+        $this->assertEquals(0, count($wo->getPrototypes()));
     }
 }
