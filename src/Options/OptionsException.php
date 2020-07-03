@@ -56,9 +56,13 @@ class OptionsException extends Exception
      * @param  string  $option
      * @return static
      */
-    public static function forInvalidOption($option)
+    public static function forInvalidOption($option, $validOptions = null)
     {
-        return new static("Invalid option '{$option}'.\n");
+        return new static(Str::join(
+            ', ',
+            "Invalid option '{$option}'",
+            !empty($validOptions) ? "valid option(s) '{$validOptions}'" : ''
+        ));
     }
 
     /**

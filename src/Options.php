@@ -248,7 +248,7 @@ class Options implements ArrayAccess, Countable, IteratorAggregate, Traversable,
         }
 
         if (!empty($this->prototypes) and !Arr::has($this->prototypes, $key)) {
-            throw OptionsException::forInvalidOption($key);
+            throw OptionsException::forInvalidOption($key, implode(' | ', array_keys($this->prototypes)));
         }
 
         if (empty($prototype)) {
@@ -291,6 +291,23 @@ class Options implements ArrayAccess, Countable, IteratorAggregate, Traversable,
         return $value;
     }
 
+    /**
+     * Check if an inaccessible property is set
+     *
+     * @param string $name
+     * @return boolean
+     */
+    public function __isset(string $name)
+    {
+        return ($this->has($name) or Arr::has($this->prototypes, $name));
+    }
+
+    /**
+     * Get an inaccessible property
+     *
+     * @param string $name
+     * @return mixed
+     */
     public function __get(string $name)
     {
         return $this->get($name);

@@ -173,6 +173,16 @@ final class OptionsTest extends TestCase
         $this->assertInstanceOf(Options::class, $options->get('object'));
     }
 
+    public function testOptions_magical_isset()
+    {
+        $oa = $this->getOptionsArray();
+        $options = Options::make($oa, $this->getPrototypeArray());
+
+        $this->assertFalse(isset($options->orange));
+        $this->assertTrue(isset($options->fruits));
+        $this->assertTrue(isset($options->firstOption));
+    }
+
     public function testOptions_magical_get()
     {
         $oa = $this->getOptionsArray();
