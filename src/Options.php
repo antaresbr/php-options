@@ -291,6 +291,11 @@ class Options implements ArrayAccess, Countable, IteratorAggregate, Traversable,
         return $value;
     }
 
+    public function __get(string $name)
+    {
+        return $this->get($name);
+    }
+
     /**
      * Validate a valued type
      *

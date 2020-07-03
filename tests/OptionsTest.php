@@ -173,6 +173,18 @@ final class OptionsTest extends TestCase
         $this->assertInstanceOf(Options::class, $options->get('object'));
     }
 
+    public function testOptions_magical_get()
+    {
+        $oa = $this->getOptionsArray();
+        $options = Options::make($oa, $this->getPrototypeArray());
+
+        $this->assertEquals('first', $options->firstOption);
+        $this->assertEquals($oa['secondOption'], $options->secondOption);
+        $this->assertEquals($oa['trueOption'], $options->trueOption);
+        $this->assertEquals($oa['falseOption'], $options->falseOption);
+        $this->assertInstanceOf(Options::class, $options->object);
+    }
+
     public function testOptions_isValidValue_method()
     {
         $wo = $this->getWorkOptions();
