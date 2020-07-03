@@ -94,6 +94,9 @@ class OptionsException extends Exception
      */
     public static function forInvalidType($option, $desiredType, $gotType, $gotValue = null)
     {
+        if (!empty($desiredType) and is_array($desiredType)) {
+            $desiredType = implode('|', $desiredType);
+        }
         return new static(Str::join(
             ', ',
             "The type of option '{$option}' must be '{$desiredType}'",

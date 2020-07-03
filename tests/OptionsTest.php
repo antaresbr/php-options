@@ -9,13 +9,13 @@ final class OptionsTest extends TestCase
     private function getPrototypeArray()
     {
         return [
-            'project' => ['types' => 'string'],
-            'firstOption' => ['nullable' => true, 'default' => 'first', 'types' => 'string'],
-            'secondOption' => ['types' => 'string'],
-            'trueOption' => ['types' => 'boolean'],
-            'falseOption' => ['types' => 'boolean'],
-            'fruits' => ['types' => 'array'],
-            'object' => ['types' => Options::class, 'nullable' => false],
+            'project' => ['type' => 'string'],
+            'firstOption' => ['type' => 'string', 'nullable' => true, 'default' => 'first'],
+            'secondOption' => ['type' => 'string'],
+            'trueOption' => ['type' => 'boolean'],
+            'falseOption' => ['type' => 'boolean'],
+            'fruits' => ['type' => 'string|array'],
+            'object' => ['type' => Options::class, 'nullable' => false],
         ];
     }
 

@@ -28,12 +28,12 @@ class Options implements ArrayAccess, Countable, IteratorAggregate, Traversable,
     ];
 
     public const PROTOTYPE = [
-        'required' => ['types' => 'boolean', 'default' => false],
-        'nullable' => ['types' => 'boolean', 'default' => true],
-        'default' => ['types' => 'mixed', 'default' => null],
-        'values' => ['types' => 'mixed', 'default' => null],
-        'types' => ['types' => 'string', 'default' => 'mixed'],
-        'throwException' => ['types' => 'boolean', 'default' => true],
+        'required' => ['type' => 'boolean', 'default' => false],
+        'nullable' => ['type' => 'boolean', 'default' => true],
+        'default' => ['type' => 'mixed', 'default' => null],
+        'values' => ['type' => 'array', 'default' => []],
+        'type' => ['type' => 'string|array', 'default' => 'mixed'],
+        'throwException' => ['type' => 'boolean', 'default' => true],
     ];
 
     /**
@@ -259,7 +259,7 @@ class Options implements ArrayAccess, Countable, IteratorAggregate, Traversable,
         $nullable = Arr::get($prototype, 'nullable', static::PROTOTYPE['nullable']['default']);
         $default = Arr::get($prototype, 'default', static::PROTOTYPE['default']['default']);
         $values = Arr::get($prototype, 'values', static::PROTOTYPE['values']['default']);
-        $types = Arr::get($prototype, 'types', static::PROTOTYPE['types']['default']);
+        $types = Arr::arrayed(Arr::get($prototype, 'type', static::PROTOTYPE['type']['default']));
         $throwException = Arr::get($prototype, 'throwException', static::PROTOTYPE['throwException']['default']);
 
         if ($required and !$this->has($key) and $throwException) {
