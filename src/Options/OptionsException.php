@@ -39,6 +39,17 @@ class OptionsException extends Exception
     }
 
     /**
+     * Create a new exception for option prototype not found
+     *
+     * @param  string  $option
+     * @return static
+     */
+    public static function forOptionPrototypeNotFound($option)
+    {
+        return new static("Option prototype not found: '{$option}'.\n");
+    }
+
+    /**
      * Create a new exception for invalid prototype key for option
      *
      * @param  string  $option
