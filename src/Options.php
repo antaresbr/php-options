@@ -87,6 +87,9 @@ class Options extends AbstractOptions
             $isValidType = $this->isValidType($value, $gotType, $types);
 
             if (!$isValidType and $throwException) {
+                if ($gotType == 'object') {
+                    $gotType = get_class($value);
+                }
                 throw OptionsException::forInvalidType($key, $types, $gotType, !Str::icIn(gettype($value), 'object', 'array') ? $value : null);
             }
 
