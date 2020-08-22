@@ -131,7 +131,7 @@ class OptionsException extends Exception
     public static function forInvalidValue($option, $validValues, $gotValue)
     {
         if (is_array($validValues)) {
-            $validValues = print_r($validValues, true);
+            $validValues = implode(' | ', $validValues);
         }
         return new static(Str::join(
             ', ',
