@@ -38,7 +38,7 @@ abstract class AbstractOptions implements ArrayAccess, Countable, IteratorAggreg
      */
     public function offsetExists($key)
     {
-        return Arr::has($this->data, $key);
+        return $this->has($key);
     }
 
     /**
@@ -49,7 +49,8 @@ abstract class AbstractOptions implements ArrayAccess, Countable, IteratorAggreg
      */
     public function offsetGet($key)
     {
-        return Arr::get($this->data, $key);
+        //return Arr::get($this->data, $key);
+        return $this->get($key);
     }
 
     /**
@@ -61,7 +62,7 @@ abstract class AbstractOptions implements ArrayAccess, Countable, IteratorAggreg
      */
     public function offsetSet($key, $value)
     {
-        Arr::set($this->data, $key, $value);
+        $this->set($key, $value);
     }
 
     /**
@@ -72,7 +73,7 @@ abstract class AbstractOptions implements ArrayAccess, Countable, IteratorAggreg
      */
     public function offsetUnset($key)
     {
-        Arr::forget($this->data, $key);
+        $this->forget($key);
     }
 
     //-- implements : Countable
@@ -227,23 +228,35 @@ abstract class AbstractOptions implements ArrayAccess, Countable, IteratorAggreg
     /**
      * Check if an inaccessible property is set
      *
-     * @param string $name
+     * @param string $key
      * @return boolean
      */
-    public function __isset(string $name)
+    public function __isset(string $key)
     {
-        return ($this->has($name) or Arr::has($this->prototypes, $name));
+        return ($this->has($key) or Arr::has($this->prototypes, $key));
     }
 
     /**
      * Get an inaccessible property
      *
-     * @param string $name
+     * @param string $key
      * @return mixed
      */
-    public function __get(string $name)
+    public function __get(string $key)
     {
-        return $this->get($name);
+        return $this->get($key);
+    }
+
+    /**
+     * Set an inaccessible property
+     *
+     * @param string $key
+     * @param mixed $value
+     * @return void
+     */
+    public function __set(string $key, $value)
+    {
+        return $this->set($key, $value);
     }
 
     /**

@@ -57,19 +57,19 @@ final class OptionsTest extends TestCase
     {
         $wo = $this->getWorkOptions();
 
-        $wo->offsetSet('newFruit', 'melon');
-        $this->assertEquals('melon', $wo->offsetGet('newFruit'));
+        $wo->offsetSet('fruits', 'melon and grape');
+        $this->assertEquals('melon and grape', $wo->offsetGet('fruits'));
     }
 
     public function testOptions_offsetUnset_method()
     {
         $wo = $this->getWorkOptions();
 
-        $wo->offsetSet('newFruit', 'melon');
-        $this->assertEquals('melon', $wo->offsetGet('newFruit'));
+        $wo->offsetSet('fruits', 'melon');
+        $this->assertEquals('melon', $wo->offsetGet('fruits'));
 
-        $wo->offsetUnset('newFruit');
-        $this->assertEquals(null, $wo->offsetGet('newFruit'));
+        $wo->offsetUnset('fruits');
+        $this->assertEquals(null, $wo->offsetGet('fruits'));
     }
 
     public function testOptions_count_method()
@@ -145,9 +145,9 @@ final class OptionsTest extends TestCase
     {
         $wo = $this->getWorkOptions();
 
-        $wo->set('newFruit', 'melon');
-        $this->assertTrue($wo->has('newFruit'));
-        $this->assertEquals('melon', $wo->offsetGet('newFruit'));
+        $wo->set('fruits', 'melon');
+        $this->assertTrue($wo->has('fruits'));
+        $this->assertEquals('melon', $wo->offsetGet('fruits'));
     }
 
     public function testOptions_forget_method()
