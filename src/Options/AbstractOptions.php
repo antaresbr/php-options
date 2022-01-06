@@ -36,7 +36,7 @@ abstract class AbstractOptions implements ArrayAccess, Countable, IteratorAggreg
      * @param  mixed  $key
      * @return bool
      */
-    public function offsetExists($key)
+    public function offsetExists($key): bool
     {
         return $this->has($key);
     }
@@ -60,7 +60,7 @@ abstract class AbstractOptions implements ArrayAccess, Countable, IteratorAggreg
      * @param  mixed  $value
      * @return void
      */
-    public function offsetSet($key, $value)
+    public function offsetSet($key, $value): void
     {
         $this->set($key, $value);
     }
@@ -71,7 +71,7 @@ abstract class AbstractOptions implements ArrayAccess, Countable, IteratorAggreg
      * @param  string  $key
      * @return void
      */
-    public function offsetUnset($key)
+    public function offsetUnset($key): void
     {
         $this->forget($key);
     }
@@ -81,9 +81,9 @@ abstract class AbstractOptions implements ArrayAccess, Countable, IteratorAggreg
     /**
      * Get items count
      *
-     * @return integer
+     * @return int
      */
-    public function count()
+    public function count(): int
     {
         return count($this->data);
     }
@@ -93,9 +93,9 @@ abstract class AbstractOptions implements ArrayAccess, Countable, IteratorAggreg
     /**
      * Get itarator
      *
-     * @return ArrayItarator
+     * @return Traversable
      */
-    public function getIterator()
+    public function getIterator(): Traversable
     {
         return new ArrayIterator($this->data);
     }
