@@ -127,19 +127,29 @@ abstract class AbstractOptions implements ArrayAccess, Countable, IteratorAggreg
     /**
      * Get protected property data
      *
+     * @param boolean $includeAbsentProperties
      * @return array
      */
-    public function all()
+    public function all(bool $includeAbsentProperties = false)
     {
-        return $this->data;
+        if (!$includeAbsentProperties) {
+            return $this->data;
+        }
+
+        $data = [];
+        foreach (array_keys($this->prototypes) as $key) {
+            $data[$key] = $this->get($key);
+        }
+        return $data;
     }
 
     /**
      * Get array data
      *
+     * @param boolean $includeAbsentProperties
      * @return array
      */
-    public function toArray()
+    public function toArray(bool $includeAbsentProperties = false)
     {
         return $this->all();
     }
